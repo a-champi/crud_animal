@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal by ID</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top:50px; }
+    </style>
+</head>
+<body>    
+    <div class="container">
+        <h1 class="text-center">Show a animal by Id</h1>
+        <% if (error) { %>
+            <p> <%= message  %></p>
+            <a href="/pets"
+                class="btn btn-info btn-block"
+            > back to Pets
+            </a> 
+        <% } %>
+        <% if (!error) { %> 
+            <form id="editForm" data-id = "<%=pet.id%>">
+                <input 
+                    type="text"
+                    class="form-control my-2"
+                    name = "name"
+                    value ="<%=pet.name %>"
+                    id = "nameInput"
+                >
+                <input 
+                    type="text"
+                    class="form-control my-2"
+                    name = "description"
+                    value ="<%=pet.description %>"
+                    id = "descriptionInput"
+                >
+                <button class="btn btn-info btn-block" type ="submit">
+                    edit
+                </button>
+            </form> 
+            <button class="btn btn-danger btn-sm mt-4 "
+                id = "btnDelete"
+                data-id = "<%=pet.id%>"
+            >Delete</button>                  
+        <% } %>               
+    </div>
+    <script>
+        const btnDelete = document.getElementById("btnDelete");
+
+        btnDelete.addEventListener("click", async() =>{
+           const id = btnDelete.dataset.id;
+
+           try {
+                
+                const data = await fetch(`/pets/${id}`, {method: "delete"});
+                const res = await data.json();
+                if(res.status){
+                    window.location.href ="/pets"
+                }else{
+                    console.log(res);
+                }
+            
+           } catch (error) {
+                console.log(error)
+           }
+        });
+
+        const editForm = document.getElementById("editForm");
+
+        editForm.addEventListener("submit", async(e) =>{
+            e.preventDefault();
+
+            const name = document.getElementById("nameInput").value;
+            const description = document.getElementById("descriptionInput").value;
+            const id = editForm.dataset.id
+            
+            try {
+                const data = await fetch(`/pets/${id}`,{method: "put", 
+                headers: {"content-Type": "application/json"},
+                body: JSON.stringify({name, description})
+                })
+
+                const res = await data.json();
+
+                if(res.status){
+                    window.location.href ="/pets"     
+                }else{
+                    console.log(res);    
+                }
+            } catch (error) {
+                console.log(first)
+                
+            }
+
+        })
+    </script>
+</body>
+</html>

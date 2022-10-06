@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+<title>EJS Is Fun</title>
+
+<!-- CSS (load bootstrap from a CDN) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body { padding-top:50px; }
+</style>
+</head>
+<body>       
+    <div class="container">
+        <h1 class="text-center"> CRUD Animal</h1>
+        <a href ="/pets/add"
+           class="btn btn-warning btn-block my-4"
+        >
+            add a new animal
+        </a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope ="col">id </th>
+                    <th scope ="col">name </th>
+                    <th scope ="col">descripcion </th>
+                    <th scope ="col">accion </th>
+                
+                </tr>
+            </thead>
+            <tbody>
+                <% if (listPets.length > 0) { %>
+                <% listPets.forEach(pet => { %>
+                    <tr> 
+                        <th scope ="row"><%=pet.id%> </th>
+                        <td><%= pet.name %> </td>
+                        <td><%= pet.description %> </td>
+                        <td>
+                            <a href="pets/<%= pet.id %>"
+                                class="btn btn-info btn-sm"
+                            > 
+                                edit
+                            </a>
+                            </td>
+                    
+                    </tr>
+
+                <% }) %>
+                <% } %>
+            </tbody>
+        </table>    
+    </div>
+</body>
+</html>
