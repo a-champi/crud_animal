@@ -11,3 +11,4 @@
 - Bootstrap
 
 ## Zum start
+npm run dev
